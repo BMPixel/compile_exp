@@ -6,6 +6,20 @@
 int yylex();
 void yyerror(const char *s);
 void yyrestart(FILE *f);
+
+// Node of the AST
+typedef struct Node {
+    char *name;
+    int lineno;
+    union {
+        int type_int;
+        float type_float;
+        double type_double;
+        char *str;
+    } value;
+    struct Node *first_child;
+    struct Node *next_sibling;
+} Node;
 %}
 
 %union {
@@ -78,7 +92,6 @@ Stmt: Exp SEMI
     | IF LP Exp RP Stmt
     | IF LP Exp RP Stmt ELSE Stmt
     | WHILE LP Exp RP Stmt
-    | error
     ;
 DefList: Def DefList
     | /* empty */
