@@ -14,6 +14,12 @@
             "type": "shell",
             "command": "bison -d -t syntax.y && flex lexical.l && gcc -o grammar syntax.tab.c lex.yy.c  && ./grammar",
             "problemMatcher": []
+        },
+        {
+            "label": "Counter Examples",
+            "type": "shell",
+            "command": "bison -d -t -Wcounterexamples syntax.y",
+            "problemMatcher": []
         }
     ]
 }

@@ -19,8 +19,14 @@ void yyrestart(FILE *f);
 %token ID SEMI COMMA ASSIGNOP RELOP PLUS MINUS STAR DIV AND OR DOT NOT TYPE LP RP LB RB LC RC STRUCT RETURN IF ELSE WHILE
 
 %right ASSIGNOP
-%left OR AND PLUS MINUS STAR DIV
-%nonassoc NOT RELOP 
+%left OR
+%left AND
+%left RELOP
+%left PLUS MINUS
+%left STAR DIV
+%left NOT
+%left DOT LB RB LP RP 
+
 
 %%
 Program: ExtDefList
@@ -35,7 +41,6 @@ ExtDef: Specifier ExtDecList SEMI
     ;
 ExtDecList: VarDec
     | VarDec COMMA ExtDecList
-    | error
     ;
 Specifier: TYPE
     | StructSpecifier
@@ -50,7 +55,6 @@ Tag: ID
     ;
 VarDec: ID
     | VarDec LB INT RB
-    | error
     ;
 FunDec: ID LP VarList RP
     | ID LP RP
@@ -58,10 +62,8 @@ FunDec: ID LP VarList RP
     ;
 VarList: ParamDec COMMA VarList
     | ParamDec
-    | error
     ;
 ParamDec: Specifier VarDec
-    | error
     ;
 CompSt: LC DefList StmtList RC
     | error RC
