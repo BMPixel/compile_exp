@@ -1292,7 +1292,7 @@ yyreduce:
     {
   case 2: /* Program: ExtDefList  */
 #line 97 "syntax.y"
-                    { (yyval.node_ptr)=cnode("Program", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); root=(yyval.node_ptr); }
+                    { (yyval.node_ptr) =cnode("Program", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); root=(yyval.node_ptr); }
 #line 1297 "syntax.tab.c"
     break;
 

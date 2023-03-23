@@ -552,7 +552,7 @@ char *yytext;
 #include <stdio.h>
 #include "ast.h"
 #include "syntax.tab.h"
-#define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
+#define TNODE(n, v) yylval = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
 extern Node* root;
 #line 559 "lex.yy.c"
