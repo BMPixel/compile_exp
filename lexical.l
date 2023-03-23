@@ -1,72 +1,76 @@
 /* TODO:
 - hex numbers
 - scientific notation for floats
+- get their values
 */
 %{
 #include <stdio.h>
+#include "ast.h"
 #include "syntax.tab.h"
+#define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
+extern Node* root;
 %}
 
 %option yylineno
 
-integer 0|[1-9][0-9]*
-
 %%
 
-{integer}      { yylval.type_int = atoi(yytext); return INT; }
+0|[1-9][0-9]*|0x[0-9a-fA-F]+|0[0-7]+     { TNODE("INT", yytext); return INT; }
 
-{integer}\.[0-9]+ { yylval.type_float = atof(yytext); return FLOAT; }
+([0-9]+\.[0-9]*|\.[0-9]+)([Ee][-+]?[0-9]+)|[0-9]+\.[0-9]+ { TNODE("FLOAT", yytext); return FLOAT; }
 
-";"           { return SEMI; }
+";"           { TNODE("SEMI", NULL); return SEMI; }
 
-","           { return COMMA; }
+","           { TNODE("COMMA", NULL); return COMMA; }
 
-"="           { return ASSIGNOP; }
+"="           { TNODE("ASSIGNOP", NULL); return ASSIGNOP; }
 
-">|<|>=|<=|==|!=" { return RELOP; }
+">|<|>=|<=|==|!=" { TNODE("RELOP", yytext); return RELOP; }
 
-"+"          { return PLUS; }
+"+"          { TNODE("PLUS", NULL); return PLUS; }
 
-"-"          { return MINUS; }
+"-"          { TNODE("MINUS", NULL); return MINUS; }
 
-"*"          { return STAR; }
+"*"          { TNODE("STAR", NULL); return STAR; }
 
-"/"          { return DIV; }
+"/"          { TNODE("DIV", NULL); return DIV; } 
 
-"&&"         { return AND; }
+"&&"         { TNODE("AND", NULL); return AND; }
 
-"||"         { return OR; }
+"||"         { TNODE("OR", NULL); return OR; }
 
-"."          { return DOT; }
+"."          { TNODE("DOT", NULL); return DOT; }
 
-"!"          { return NOT; }
+"!"          { TNODE("NOT", NULL); return NOT; }
 
-int|float { return TYPE; }
+int|float { TNODE("TYPE", yytext); return TYPE; }
 
-"("          { return LP; }
+"("          { TNODE("LP", NULL); return LP; }
 
-")"          { return RP; }
+")"          { TNODE("RP", NULL); return RP; }
 
-"["          { return LB; }
+"["          { TNODE("LB", NULL); return LB; }
 
-"]"          { return RB; }
+"]"          { TNODE("RB", NULL); return RB; }
 
-"{"          { return LC; }
+"{"          { TNODE("LC", NULL); return LC; }
 
-"}"          { return RC; }
+"}"          { TNODE("RC", NULL); return RC; }
 
-"struct"     { return STRUCT; }
+"struct"     { TNODE("STRUCT", NULL); return STRUCT; }
 
-"return"     { return RETURN; }
+"return"     { TNODE("RETURN", NULL); return RETURN; }
 
-"if"         { return IF; }
+"if"         { TNODE("IF", NULL); return IF; }
 
-"else"       { return ELSE; }
+"else"       { TNODE("ELSE", NULL); return ELSE; }
 
-"while"      { return WHILE; }
+"while"      { TNODE("WHILE", NULL); return WHILE; }
 
-[a-zA-Z_][a-zA-Z0-9_]* { return ID; }
+[a-zA-Z_][a-zA-Z0-9_]* { TNODE("ID", yytext); return ID; }
+
+"(\/\/[^\n]*|\/\*[\s\S]*?\*\/)"      /* ignore comments */
 
 [ \t\n]       /* ignore whitespace */
 
@@ -75,8 +79,9 @@ int|float { return TYPE; }
 %%
 
 void yyerror(const char *s) {
-    if (strcmp(s, "syntax error") == 0) {
-        fprintf(stderr, "Error type B at Line %d:\n", yylineno);
+    root = NULL;
+    if (strcmp(s, "syntax error") == 0) { 
+        fprintf(stderr, "Error type B at Line %d: syntax error\n", yylineno);
     } else if (strcmp (s, "lexical error") == 0) {
         fprintf(stderr, "Error type A at Line %d: Invalid Character \"%s\".\n", yylineno, yytext);
     } else {

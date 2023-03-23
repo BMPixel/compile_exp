@@ -1,6 +1,5 @@
-int main() {
-    int a[3,5];
-    if(3+ a {
-        int b = 5;
-    }
+int main()
+{
+    struct Complex x;
+    y.real = 1.05e9;
 }
