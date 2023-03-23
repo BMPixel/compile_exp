@@ -5,13 +5,14 @@
 #include <stdarg.h>
 #include "ast.h"
 #include "syntax.tab.h"
+#define cnode(n, l, c, ...) create_node(n, l->lineno, c, (Node *[]){__VA_ARGS__})
 /* #define YYDEBUG 1 */
 int yylex();
 void yyerror(const char *s);
 void yyrestart(FILE *f);
 
 
-Node* cnode(char *name, int lineno, int num_children, Node **children) {
+Node* create_node(char *name, int lineno, int num_children, Node **children) {
     Node *node = (Node *)malloc(sizeof(Node));
     node->name = name;
     node->lineno = lineno;
@@ -93,90 +94,90 @@ void print_tree(Node *node, int level) {
 
 
 %%
-Program: ExtDefList { $$ = cnode("Program", $1->lineno, 1, (Node *[]){$1}); root=$$; }
+Program: ExtDefList { $$=cnode("Program", $1, 1, $1); root=$$; }
     ;
-ExtDefList: ExtDef ExtDefList { $$ = cnode("ExtDefList", $1->lineno, 2, (Node *[]){$1, $2}); }
+ExtDefList: ExtDef ExtDefList { $$=cnode("ExtDefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
     ;
-ExtDef: Specifier ExtDecList SEMI { $$ = cnode("ExtDef", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Specifier SEMI { $$ = cnode("ExtDef", $1->lineno, 2, (Node *[]){$1, $2}); }
-    | Specifier FunDec CompSt { $$ = cnode("ExtDef", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
+ExtDef: Specifier ExtDecList SEMI { $$=cnode("ExtDef", $1, 3, $1, $2, $3); }
+    | Specifier SEMI { $$=cnode("ExtDef", $1, 2, $1, $2); }
+    | Specifier FunDec CompSt { $$=cnode("ExtDef", $1, 3, $1, $2, $3); }
     | error SEMI { $$ = NULL; }
     ;
-ExtDecList: VarDec { $$ = cnode("ExtDecList", $1->lineno, 1, (Node *[]){$1}); }
-    | VarDec COMMA ExtDecList { $$ = cnode("ExtDecList", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
+ExtDecList: VarDec { $$=cnode("ExtDecList", $1, 1, $1); }
+    | VarDec COMMA ExtDecList { $$=cnode("ExtDecList", $1, 3, $1, $2, $3); }
     ;
-Specifier: TYPE { $$ = cnode("Specifier", $1->lineno, 1, (Node *[]){$1}); }
-    | StructSpecifier { $$ = cnode("Specifier", $1->lineno, 1, (Node *[]){$1}); }
+Specifier: TYPE { $$=cnode("Specifier", $1, 1, $1); }
+    | StructSpecifier { $$=cnode("Specifier", $1, 1, $1); }
     ;
-StructSpecifier: STRUCT OptTag LC DefList RC { $$ = cnode("StructSpecifier", $1->lineno, 5, (Node *[]){$1, $2, $3, $4, $5}); }
-    | STRUCT Tag { $$ = cnode("StructSpecifier", $1->lineno, 2, (Node *[]){$1, $2}); }
+StructSpecifier: STRUCT OptTag LC DefList RC { $$=cnode("StructSpecifier", $1, 5, $1, $2, $3, $4, $5); }
+    | STRUCT Tag { $$=cnode("StructSpecifier", $1, 2, $1, $2); }
     ;
-OptTag: ID { $$ = cnode("OptTag", $1->lineno, 1, (Node *[]){$1}); }
+OptTag: ID { $$=cnode("OptTag", $1, 1, $1); }
     | /* empty */ { $$ = NULL; }
     ;
-Tag: ID { $$ = cnode("Tag", $1->lineno, 1, (Node *[]){$1}); }
+Tag: ID { $$=cnode("Tag", $1, 1, $1); }
     ;
-VarDec: ID { $$ = cnode("VarDec", $1->lineno, 1, (Node *[]){$1}); }
-    | VarDec LB INT RB { $$ = cnode("VarDec", $1->lineno, 3, (Node *[]){$1, $2, $4}); }
+VarDec: ID { $$=cnode("VarDec", $1, 1, $1); }
+    | VarDec LB INT RB { $$=cnode("VarDec", $1, 3, $1, $2, $4); }
     ;
-FunDec: ID LP VarList RP { $$ = cnode("FunDec", $1->lineno, 4, (Node *[]){$1, $2, $3, $4}); }
-    | ID LP RP { $$ = cnode("FunDec", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
+FunDec: ID LP VarList RP { $$=cnode("FunDec", $1, 4, $1, $2, $3, $4); }
+    | ID LP RP { $$=cnode("FunDec", $1, 3, $1, $2, $3); }
     | error RP { $$ = NULL; }
     ;
-VarList: ParamDec COMMA VarList { $$ = cnode("VarList", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | ParamDec { $$ = cnode("VarList", $1->lineno, 1, (Node *[]){$1}); }
+VarList: ParamDec COMMA VarList { $$=cnode("VarList", $1, 3, $1, $2, $3); }
+    | ParamDec { $$=cnode("VarList", $1, 1, $1); }
     ;
-ParamDec: Specifier VarDec { $$ = cnode("ParamDec", $1->lineno, 2, (Node *[]){$1, $2}); }
+ParamDec: Specifier VarDec { $$=cnode("ParamDec", $1, 2, $1, $2); }
     ;
-CompSt: LC DefList StmtList RC { $$ = cnode("CompSt", $1->lineno, 4, (Node *[]){$1, $2, $3, $4}); }
+CompSt: LC DefList StmtList RC { $$=cnode("CompSt", $1, 4, $1, $2, $3, $4); }
     | error RC { $$ = NULL; }
     ;
-StmtList: Stmt StmtList { $$ = cnode("StmtList", $1->lineno, 2, (Node *[]){$1, $2}); }
+StmtList: Stmt StmtList { $$=cnode("StmtList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
     ;
-Stmt: Exp SEMI { $$ = cnode("Stmt", $1->lineno, 2, (Node *[]){$1, $2}); }
+Stmt: Exp SEMI { $$=cnode("Stmt", $1, 2, $1, $2); }
     | error SEMI { $$ = NULL; }
-    | CompSt { $$ = cnode("Stmt", $1->lineno, 1, (Node *[]){$1}); }
-    | RETURN Exp SEMI { $$ = cnode("Stmt", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | IF LP Exp RP Stmt { $$ = cnode("Stmt", $1->lineno, 5, (Node *[]){$1, $2, $3, $4, $5}); }
-    | IF LP Exp RP Stmt ELSE Stmt { $$ = cnode("Stmt", $1->lineno, 7, (Node *[]){$1, $2, $3, $4, $5, $6, $7}); }
-    | WHILE LP Exp RP Stmt { $$ = cnode("Stmt", $1->lineno, 5, (Node *[]){$1, $2, $3, $4, $5}); }
+    | CompSt { $$=cnode("Stmt", $1, 1, $1); }
+    | RETURN Exp SEMI { $$=cnode("Stmt", $1, 3, $1, $2, $3); }
+    | IF LP Exp RP Stmt { $$=cnode("Stmt", $1, 5, $1, $2, $3, $4, $5); }
+    | IF LP Exp RP Stmt ELSE Stmt { $$=cnode("Stmt", $1, 7, $1, $2, $3, $4, $5, $6, $7); }
+    | WHILE LP Exp RP Stmt { $$=cnode("Stmt", $1, 5, $1, $2, $3, $4, $5); }
     ;
-DefList: Def DefList { $$ = cnode("DefList", $1->lineno, 2, (Node *[]){$1, $2}); }
+DefList: Def DefList { $$=cnode("DefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
     ;
-Def: Specifier DecList SEMI { $$ = cnode("Def", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
+Def: Specifier DecList SEMI { $$=cnode("Def", $1, 3, $1, $2, $3); }
     | error SEMI { $$ = NULL; }
     ;
-DecList: Dec COMMA DecList { $$ = cnode("DecList", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Dec { $$ = cnode("DecList", $1->lineno, 1, (Node *[]){$1}); }
+DecList: Dec COMMA DecList { $$=cnode("DecList", $1, 3, $1, $2, $3); }
+    | Dec { $$=cnode("DecList", $1, 1, $1); }
     ;
-Dec: VarDec { $$ = cnode("Dec", $1->lineno, 1, (Node *[]){$1}); }
-    | VarDec ASSIGNOP Exp { $$ = cnode("Dec", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
+Dec: VarDec { $$=cnode("Dec", $1, 1, $1); }
+    | VarDec ASSIGNOP Exp { $$=cnode("Dec", $1, 3, $1, $2, $3); }
     ;
-Exp: Exp ASSIGNOP Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp AND Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp OR Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp RELOP Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp PLUS Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp MINUS Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp STAR Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp DIV Exp { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | LP Exp RP { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | MINUS Exp { $$ = cnode("Exp", $1->lineno, 2, (Node *[]){$1, $2}); }
-    | NOT Exp { $$ = cnode("Exp", $1->lineno, 2, (Node *[]){$1, $2}); }
-    | ID LP Args RP { $$ = cnode("Exp", $1->lineno, 4, (Node *[]){$1, $2, $3, $4}); }
-    | ID LP RP { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp LB Exp RB { $$ = cnode("Exp", $1->lineno, 4, (Node *[]){$1, $2, $3, $4}); }
-    | Exp DOT ID { $$ = cnode("Exp", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | ID { $$ = cnode("Exp", $1->lineno, 1, (Node *[]){$1}); }
-    | INT { $$ = cnode("Exp", $1->lineno, 1, (Node *[]){$1}); } 
-    | FLOAT { $$ = cnode("Exp", $1->lineno, 1, (Node *[]){$1}); }
+Exp: Exp ASSIGNOP Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp AND Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp OR Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp RELOP Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp PLUS Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp MINUS Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp STAR Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp DIV Exp { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | LP Exp RP { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | MINUS Exp { $$=cnode("Exp", $1, 2, $1, $2); }
+    | NOT Exp { $$=cnode("Exp", $1, 2, $1, $2); }
+    | ID LP Args RP { $$=cnode("Exp", $1, 4, $1, $2, $3, $4); }
+    | ID LP RP { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | Exp LB Exp RB { $$=cnode("Exp", $1, 4, $1, $2, $3, $4); }
+    | Exp DOT ID { $$=cnode("Exp", $1, 3, $1, $2, $3); }
+    | ID { $$=cnode("Exp", $1, 1, $1); }
+    | INT { $$=cnode("Exp", $1, 1, $1); } 
+    | FLOAT { $$=cnode("Exp", $1, 1, $1); }
     /* | error RP */
     ;
-Args: Exp COMMA Args { $$ = cnode("Args", $1->lineno, 3, (Node *[]){$1, $2, $3}); }
-    | Exp { $$ = cnode("Args", $1->lineno, 1, (Node *[]){$1}); }
+Args: Exp COMMA Args { $$=cnode("Args", $1, 3, $1, $2, $3); }
+    | Exp { $$=cnode("Args", $1, 1, $1); }
     ;
 %%
 
