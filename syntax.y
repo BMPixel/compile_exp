@@ -94,7 +94,7 @@ void print_tree(Node *node, int level) {
 
 
 %%
-Program: ExtDefList { $$ =cnode("Program", $1, 1, $1); root=$$; }
+Program: ExtDefList { printf("%d", $1 == NULL); $$ =cnode("Program", $1, 1, $1); root=$$; }
     ;
 ExtDefList: ExtDef ExtDefList { $$=cnode("ExtDefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
