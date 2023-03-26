@@ -10,6 +10,7 @@
 #define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
 extern Node* root;
+extern int error_count;
 %}
 
 %option yylineno
@@ -26,7 +27,7 @@ extern Node* root;
 
 "="           { TNODE("ASSIGNOP", NULL); return ASSIGNOP; }
 
-">|<|>=|<=|==|!=" { TNODE("RELOP", yytext); return RELOP; }
+">"|"<"|">="|"<="|"=="|"!=" { TNODE("RELOP", yytext); return RELOP; }
 
 "+"          { TNODE("PLUS", NULL); return PLUS; }
 
@@ -79,6 +80,7 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
 %%
 
 void yyerror(const char *s) {
+    error_count++;
     root = NULL;
     if (strcmp(s, "syntax error") == 0) { 
         fprintf(stderr, "Error type B at Line %d: syntax error\n", yylineno);

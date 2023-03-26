@@ -54,6 +54,7 @@ Node* create_terminal_node(char * name, int lineno, char* value) {
 }
 
 Node* root;
+int error_count = 0;
 
 void print_tree(Node *node, int level) {
     if (!node) return;
@@ -102,7 +103,7 @@ ExtDefList: ExtDef ExtDefList { $$=cnode("ExtDefList", $1, 2, $1, $2); }
 ExtDef: Specifier ExtDecList SEMI { $$=cnode("ExtDef", $1, 3, $1, $2, $3); }
     | Specifier SEMI { $$=cnode("ExtDef", $1, 2, $1, $2); }
     | Specifier FunDec CompSt { $$=cnode("ExtDef", $1, 3, $1, $2, $3); }
-    | error SEMI { $$ = NULL; }
+    | error SEMI { $$ = $2; }
     ;
 ExtDecList: VarDec { $$=cnode("ExtDecList", $1, 1, $1); }
     | VarDec COMMA ExtDecList { $$=cnode("ExtDecList", $1, 3, $1, $2, $3); }
@@ -123,7 +124,7 @@ VarDec: ID { $$=cnode("VarDec", $1, 1, $1); }
     ;
 FunDec: ID LP VarList RP { $$=cnode("FunDec", $1, 4, $1, $2, $3, $4); }
     | ID LP RP { $$=cnode("FunDec", $1, 3, $1, $2, $3); }
-    | error RP { $$ = NULL; }
+    | error RP { $$ = $2; }
     ;
 VarList: ParamDec COMMA VarList { $$=cnode("VarList", $1, 3, $1, $2, $3); }
     | ParamDec { $$=cnode("VarList", $1, 1, $1); }
@@ -131,13 +132,13 @@ VarList: ParamDec COMMA VarList { $$=cnode("VarList", $1, 3, $1, $2, $3); }
 ParamDec: Specifier VarDec { $$=cnode("ParamDec", $1, 2, $1, $2); }
     ;
 CompSt: LC DefList StmtList RC { $$=cnode("CompSt", $1, 4, $1, $2, $3, $4); }
-    | error RC { $$ = NULL; }
+    | error RC { $$ = $2; }
     ;
 StmtList: Stmt StmtList { $$=cnode("StmtList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
     ;
 Stmt: Exp SEMI { $$=cnode("Stmt", $1, 2, $1, $2); }
-    | error SEMI { $$ = NULL; }
+    | error SEMI { $$ = $2; }
     | CompSt { $$=cnode("Stmt", $1, 1, $1); }
     | RETURN Exp SEMI { $$=cnode("Stmt", $1, 3, $1, $2, $3); }
     | IF LP Exp RP Stmt { $$=cnode("Stmt", $1, 5, $1, $2, $3, $4, $5); }
@@ -148,7 +149,7 @@ DefList: Def DefList { $$=cnode("DefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
     ;
 Def: Specifier DecList SEMI { $$=cnode("Def", $1, 3, $1, $2, $3); }
-    | error SEMI { $$ = NULL; }
+    | error SEMI { $$ = $2; }
     ;
 DecList: Dec COMMA DecList { $$=cnode("DecList", $1, 3, $1, $2, $3); }
     | Dec { $$=cnode("DecList", $1, 1, $1); }
@@ -194,7 +195,7 @@ int main(int argc, char **argv) {
     yyrestart(f);
     /* yydebug = 1; */
     yyparse();
-    if (root)
+    if (root && error_count == 0)
         print_tree(root, 0);
     return 0;
 }
