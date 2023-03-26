@@ -10,6 +10,7 @@
 #define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
 extern Node* root;
+extern int parse_success;
 %}
 
 %option yylineno
@@ -70,8 +71,6 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
 
 [a-zA-Z_][a-zA-Z0-9_]* { TNODE("ID", yytext); return ID; }
 
-"(\/\/[^\n]*|\/\*[\s\S]*?\*\/)"      /* ignore comments */
-
 [ \t\n]       /* ignore whitespace */
 
 .           { yyerror("lexical error"); }
@@ -80,6 +79,7 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
 
 void yyerror(const char *s) {
     root = NULL;
+    parse_success = 0;
     if (strcmp(s, "syntax error") == 0) { 
         fprintf(stderr, "Error type B at Line %d: syntax error\n", yylineno);
     } else if (strcmp (s, "lexical error") == 0) {

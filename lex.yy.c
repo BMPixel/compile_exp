@@ -555,8 +555,9 @@ char *yytext;
 #define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
 extern Node* root;
-#line 559 "lex.yy.c"
+extern int parse_success;
 #line 560 "lex.yy.c"
+#line 561 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -773,10 +774,10 @@ YY_DECL
 		}
 
 	{
-#line 17 "lexical.l"
+#line 18 "lexical.l"
 
 
-#line 780 "lex.yy.c"
+#line 781 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -845,162 +846,162 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 19 "lexical.l"
+#line 20 "lexical.l"
 { TNODE("INT", yytext); return INT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "lexical.l"
+#line 22 "lexical.l"
 { TNODE("FLOAT", yytext); return FLOAT; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 23 "lexical.l"
+#line 24 "lexical.l"
 { TNODE("SEMI", NULL); return SEMI; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "lexical.l"
+#line 26 "lexical.l"
 { TNODE("COMMA", NULL); return COMMA; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 27 "lexical.l"
+#line 28 "lexical.l"
 { TNODE("ASSIGNOP", NULL); return ASSIGNOP; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 29 "lexical.l"
+#line 30 "lexical.l"
 { TNODE("RELOP", yytext); return RELOP; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 31 "lexical.l"
+#line 32 "lexical.l"
 { TNODE("PLUS", NULL); return PLUS; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 33 "lexical.l"
+#line 34 "lexical.l"
 { TNODE("MINUS", NULL); return MINUS; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 35 "lexical.l"
+#line 36 "lexical.l"
 { TNODE("STAR", NULL); return STAR; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 37 "lexical.l"
+#line 38 "lexical.l"
 { TNODE("DIV", NULL); return DIV; } 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "lexical.l"
+#line 40 "lexical.l"
 { TNODE("AND", NULL); return AND; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 41 "lexical.l"
+#line 42 "lexical.l"
 { TNODE("OR", NULL); return OR; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 43 "lexical.l"
+#line 44 "lexical.l"
 { TNODE("DOT", NULL); return DOT; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 45 "lexical.l"
+#line 46 "lexical.l"
 { TNODE("NOT", NULL); return NOT; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 47 "lexical.l"
+#line 48 "lexical.l"
 { TNODE("TYPE", yytext); return TYPE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 49 "lexical.l"
+#line 50 "lexical.l"
 { TNODE("LP", NULL); return LP; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 51 "lexical.l"
+#line 52 "lexical.l"
 { TNODE("RP", NULL); return RP; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 53 "lexical.l"
+#line 54 "lexical.l"
 { TNODE("LB", NULL); return LB; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 55 "lexical.l"
+#line 56 "lexical.l"
 { TNODE("RB", NULL); return RB; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 57 "lexical.l"
+#line 58 "lexical.l"
 { TNODE("LC", NULL); return LC; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 59 "lexical.l"
+#line 60 "lexical.l"
 { TNODE("RC", NULL); return RC; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 61 "lexical.l"
+#line 62 "lexical.l"
 { TNODE("STRUCT", NULL); return STRUCT; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 63 "lexical.l"
+#line 64 "lexical.l"
 { TNODE("RETURN", NULL); return RETURN; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 65 "lexical.l"
+#line 66 "lexical.l"
 { TNODE("IF", NULL); return IF; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 67 "lexical.l"
+#line 68 "lexical.l"
 { TNODE("ELSE", NULL); return ELSE; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 69 "lexical.l"
+#line 70 "lexical.l"
 { TNODE("WHILE", NULL); return WHILE; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 71 "lexical.l"
+#line 72 "lexical.l"
 { TNODE("ID", yytext); return ID; }
 	YY_BREAK
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 73 "lexical.l"
+#line 74 "lexical.l"
 /* ignore comments */
 	YY_BREAK
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 75 "lexical.l"
+#line 76 "lexical.l"
 /* ignore whitespace */
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 77 "lexical.l"
+#line 78 "lexical.l"
 { yyerror("lexical error"); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 79 "lexical.l"
+#line 80 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1004 "lex.yy.c"
+#line 1005 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2017,11 +2018,12 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 79 "lexical.l"
+#line 80 "lexical.l"
 
 
 void yyerror(const char *s) {
     root = NULL;
+    parse_success = 0;
     if (strcmp(s, "syntax error") == 0) { 
         fprintf(stderr, "Error type B at Line %d: syntax error\n", yylineno);
     } else if (strcmp (s, "lexical error") == 0) {

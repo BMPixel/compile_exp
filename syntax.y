@@ -54,6 +54,7 @@ Node* create_terminal_node(char * name, int lineno, char* value) {
 }
 
 Node* root;
+int parse_success = 1;
 
 void print_tree(Node *node, int level) {
     if (!node) return;
@@ -94,7 +95,7 @@ void print_tree(Node *node, int level) {
 
 
 %%
-Program: ExtDefList { printf("%d", $1 == NULL); $$ =cnode("Program", $1, 1, $1); root=$$; }
+Program: ExtDefList { $$ =cnode("Program", $1, 1, $1); root=$$; }
     ;
 ExtDefList: ExtDef ExtDefList { $$=cnode("ExtDefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
@@ -194,7 +195,7 @@ int main(int argc, char **argv) {
     yyrestart(f);
     /* yydebug = 1; */
     yyparse();
-    if (root)
+    if (root && parse_success)
         print_tree(root, 0);
     return 0;
 }
