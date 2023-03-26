@@ -15,6 +15,7 @@ extern int parse_success;
 
 %option yylineno
 
+
 %%
 
 0|[1-9][0-9]*|0x[0-9a-fA-F]+|0[0-7]+     { TNODE("INT", yytext); return INT; }
@@ -27,7 +28,7 @@ extern int parse_success;
 
 "="           { TNODE("ASSIGNOP", NULL); return ASSIGNOP; }
 
-">|<|>=|<=|==|!=" { TNODE("RELOP", yytext); return RELOP; }
+">"|"<"|">="|"<="|"=="|"!=" { TNODE("RELOP", yytext); return RELOP; }
 
 "+"          { TNODE("PLUS", NULL); return PLUS; }
 
@@ -70,6 +71,7 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
 "while"      { TNODE("WHILE", NULL); return WHILE; }
 
 [a-zA-Z_][a-zA-Z0-9_]* { TNODE("ID", yytext); return ID; }
+
 
 [ \t\n]       /* ignore whitespace */
 

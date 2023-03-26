@@ -144,6 +144,8 @@ Stmt: Exp SEMI { $$=cnode("Stmt", $1, 2, $1, $2); }
     | IF LP Exp RP Stmt { $$=cnode("Stmt", $1, 5, $1, $2, $3, $4, $5); }
     | IF LP Exp RP Stmt ELSE Stmt { $$=cnode("Stmt", $1, 7, $1, $2, $3, $4, $5, $6, $7); }
     | WHILE LP Exp RP Stmt { $$=cnode("Stmt", $1, 5, $1, $2, $3, $4, $5); }
+    | error RP Stmt { $$ = NULL; }
+    | error RP { $$ = NULL; }
     ;
 DefList: Def DefList { $$=cnode("DefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
@@ -193,7 +195,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     yyrestart(f);
-    /* yydebug = 1; */
+    yydebug = 1;
     yyparse();
     if (root && parse_success)
         print_tree(root, 0);
