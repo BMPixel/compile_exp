@@ -17,7 +17,7 @@ extern int error_count;
 
 %%
 
-0|[1-9][0-9]*|0x[0-9a-fA-F]+|0[0-7]+     { TNODE("INT", yytext); return INT; }
+0|[1-9][0-9]*|0x[0-9a-fA-F]+|0[1-7][0-7]+     { TNODE("INT", yytext); return INT; }
 
 ([0-9]+\.[0-9]*|\.[0-9]+)([Ee][-+]?[0-9]+)|[0-9]+\.[0-9]+ { TNODE("FLOAT", yytext); return FLOAT; }
 
@@ -69,9 +69,18 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
 
 "while"      { TNODE("WHILE", NULL); return WHILE; }
 
-[a-zA-Z_][a-zA-Z0-9_]* { TNODE("ID", yytext); return ID; }
+"/*"       {
+            char c, prev = 0;
+            while((c = input()) != 0) {
+                if(c == '/' && prev == '*') break;
+                prev = c;
+            }
+         }
+"//"       {
+            while(input() != '\n');
+         }
 
-"(\/\/[^\n]*|\/\*[\s\S]*?\*\/)"      /* ignore comments */
+[a-zA-Z_][a-zA-Z0-9_]* { TNODE("ID", yytext); return ID; }
 
 [ \t\n]       /* ignore whitespace */
 
