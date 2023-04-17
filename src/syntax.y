@@ -193,7 +193,6 @@ int main(int argc, char **argv) {
         return 1;
     }
     yyrestart(f);
-    /* yydebug = 1; */
     yyparse();
     if (root && error_count == 0)
         print_tree(root, 0);

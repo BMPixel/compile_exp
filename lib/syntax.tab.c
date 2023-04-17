@@ -67,7 +67,7 @@
 
 
 /* First part of user prologue.  */
-#line 1 "syntax.y"
+#line 1 "src/syntax.y"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -143,7 +143,7 @@ void print_tree(Node *node, int level) {
 }
 
 
-#line 147 "syntax.tab.c"
+#line 147 "lib/syntax.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -1292,385 +1292,385 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* Program: ExtDefList  */
-#line 98 "syntax.y"
+#line 98 "src/syntax.y"
                     { printf("%d", (yyvsp[0].node_ptr) == NULL); (yyval.node_ptr) =cnode("Program", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); root=(yyval.node_ptr); }
-#line 1298 "syntax.tab.c"
+#line 1298 "lib/syntax.tab.c"
     break;
 
   case 3: /* ExtDefList: ExtDef ExtDefList  */
-#line 100 "syntax.y"
+#line 100 "src/syntax.y"
                               { (yyval.node_ptr)=cnode("ExtDefList", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1304 "syntax.tab.c"
+#line 1304 "lib/syntax.tab.c"
     break;
 
   case 4: /* ExtDefList: %empty  */
-#line 101 "syntax.y"
+#line 101 "src/syntax.y"
                   { (yyval.node_ptr) = NULL; }
-#line 1310 "syntax.tab.c"
+#line 1310 "lib/syntax.tab.c"
     break;
 
   case 5: /* ExtDef: Specifier ExtDecList SEMI  */
-#line 103 "syntax.y"
+#line 103 "src/syntax.y"
                                   { (yyval.node_ptr)=cnode("ExtDef", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1316 "syntax.tab.c"
+#line 1316 "lib/syntax.tab.c"
     break;
 
   case 6: /* ExtDef: Specifier SEMI  */
-#line 104 "syntax.y"
+#line 104 "src/syntax.y"
                      { (yyval.node_ptr)=cnode("ExtDef", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1322 "syntax.tab.c"
+#line 1322 "lib/syntax.tab.c"
     break;
 
   case 7: /* ExtDef: Specifier FunDec CompSt  */
-#line 105 "syntax.y"
+#line 105 "src/syntax.y"
                               { (yyval.node_ptr)=cnode("ExtDef", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1328 "syntax.tab.c"
+#line 1328 "lib/syntax.tab.c"
     break;
 
   case 8: /* ExtDef: error SEMI  */
-#line 106 "syntax.y"
+#line 106 "src/syntax.y"
                  { (yyval.node_ptr) = (yyvsp[0].node_ptr); }
-#line 1334 "syntax.tab.c"
+#line 1334 "lib/syntax.tab.c"
     break;
 
   case 9: /* ExtDecList: VarDec  */
-#line 108 "syntax.y"
+#line 108 "src/syntax.y"
                    { (yyval.node_ptr)=cnode("ExtDecList", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1340 "syntax.tab.c"
+#line 1340 "lib/syntax.tab.c"
     break;
 
   case 10: /* ExtDecList: VarDec COMMA ExtDecList  */
-#line 109 "syntax.y"
+#line 109 "src/syntax.y"
                               { (yyval.node_ptr)=cnode("ExtDecList", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1346 "syntax.tab.c"
+#line 1346 "lib/syntax.tab.c"
     break;
 
   case 11: /* Specifier: TYPE  */
-#line 111 "syntax.y"
+#line 111 "src/syntax.y"
                 { (yyval.node_ptr)=cnode("Specifier", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1352 "syntax.tab.c"
+#line 1352 "lib/syntax.tab.c"
     break;
 
   case 12: /* Specifier: StructSpecifier  */
-#line 112 "syntax.y"
+#line 112 "src/syntax.y"
                       { (yyval.node_ptr)=cnode("Specifier", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1358 "syntax.tab.c"
+#line 1358 "lib/syntax.tab.c"
     break;
 
   case 13: /* StructSpecifier: STRUCT OptTag LC DefList RC  */
-#line 114 "syntax.y"
+#line 114 "src/syntax.y"
                                              { (yyval.node_ptr)=cnode("StructSpecifier", (yyvsp[-4].node_ptr), 5, (yyvsp[-4].node_ptr), (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1364 "syntax.tab.c"
+#line 1364 "lib/syntax.tab.c"
     break;
 
   case 14: /* StructSpecifier: STRUCT Tag  */
-#line 115 "syntax.y"
+#line 115 "src/syntax.y"
                  { (yyval.node_ptr)=cnode("StructSpecifier", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1370 "syntax.tab.c"
+#line 1370 "lib/syntax.tab.c"
     break;
 
   case 15: /* OptTag: ID  */
-#line 117 "syntax.y"
+#line 117 "src/syntax.y"
            { (yyval.node_ptr)=cnode("OptTag", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1376 "syntax.tab.c"
+#line 1376 "lib/syntax.tab.c"
     break;
 
   case 16: /* OptTag: %empty  */
-#line 118 "syntax.y"
+#line 118 "src/syntax.y"
                   { (yyval.node_ptr) = NULL; }
-#line 1382 "syntax.tab.c"
+#line 1382 "lib/syntax.tab.c"
     break;
 
   case 17: /* Tag: ID  */
-#line 120 "syntax.y"
+#line 120 "src/syntax.y"
         { (yyval.node_ptr)=cnode("Tag", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1388 "syntax.tab.c"
+#line 1388 "lib/syntax.tab.c"
     break;
 
   case 18: /* VarDec: ID  */
-#line 122 "syntax.y"
+#line 122 "src/syntax.y"
            { (yyval.node_ptr)=cnode("VarDec", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1394 "syntax.tab.c"
+#line 1394 "lib/syntax.tab.c"
     break;
 
   case 19: /* VarDec: VarDec LB INT RB  */
-#line 123 "syntax.y"
+#line 123 "src/syntax.y"
                        { (yyval.node_ptr)=cnode("VarDec", (yyvsp[-3].node_ptr), 3, (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1400 "syntax.tab.c"
+#line 1400 "lib/syntax.tab.c"
     break;
 
   case 20: /* FunDec: ID LP VarList RP  */
-#line 125 "syntax.y"
+#line 125 "src/syntax.y"
                          { (yyval.node_ptr)=cnode("FunDec", (yyvsp[-3].node_ptr), 4, (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1406 "syntax.tab.c"
+#line 1406 "lib/syntax.tab.c"
     break;
 
   case 21: /* FunDec: ID LP RP  */
-#line 126 "syntax.y"
+#line 126 "src/syntax.y"
                { (yyval.node_ptr)=cnode("FunDec", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1412 "syntax.tab.c"
+#line 1412 "lib/syntax.tab.c"
     break;
 
   case 22: /* FunDec: error RP  */
-#line 127 "syntax.y"
+#line 127 "src/syntax.y"
                { (yyval.node_ptr) = (yyvsp[0].node_ptr); }
-#line 1418 "syntax.tab.c"
+#line 1418 "lib/syntax.tab.c"
     break;
 
   case 23: /* VarList: ParamDec COMMA VarList  */
-#line 129 "syntax.y"
+#line 129 "src/syntax.y"
                                 { (yyval.node_ptr)=cnode("VarList", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1424 "syntax.tab.c"
+#line 1424 "lib/syntax.tab.c"
     break;
 
   case 24: /* VarList: ParamDec  */
-#line 130 "syntax.y"
+#line 130 "src/syntax.y"
                { (yyval.node_ptr)=cnode("VarList", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1430 "syntax.tab.c"
+#line 1430 "lib/syntax.tab.c"
     break;
 
   case 25: /* ParamDec: Specifier VarDec  */
-#line 132 "syntax.y"
+#line 132 "src/syntax.y"
                            { (yyval.node_ptr)=cnode("ParamDec", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1436 "syntax.tab.c"
+#line 1436 "lib/syntax.tab.c"
     break;
 
   case 26: /* CompSt: LC DefList StmtList RC  */
-#line 134 "syntax.y"
+#line 134 "src/syntax.y"
                                { (yyval.node_ptr)=cnode("CompSt", (yyvsp[-3].node_ptr), 4, (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1442 "syntax.tab.c"
+#line 1442 "lib/syntax.tab.c"
     break;
 
   case 27: /* CompSt: error RC  */
-#line 135 "syntax.y"
+#line 135 "src/syntax.y"
                { (yyval.node_ptr) = (yyvsp[0].node_ptr); }
-#line 1448 "syntax.tab.c"
+#line 1448 "lib/syntax.tab.c"
     break;
 
   case 28: /* StmtList: Stmt StmtList  */
-#line 137 "syntax.y"
+#line 137 "src/syntax.y"
                         { (yyval.node_ptr)=cnode("StmtList", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1454 "syntax.tab.c"
+#line 1454 "lib/syntax.tab.c"
     break;
 
   case 29: /* StmtList: %empty  */
-#line 138 "syntax.y"
+#line 138 "src/syntax.y"
                   { (yyval.node_ptr) = NULL; }
-#line 1460 "syntax.tab.c"
+#line 1460 "lib/syntax.tab.c"
     break;
 
   case 30: /* Stmt: Exp SEMI  */
-#line 140 "syntax.y"
+#line 140 "src/syntax.y"
                { (yyval.node_ptr)=cnode("Stmt", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1466 "syntax.tab.c"
+#line 1466 "lib/syntax.tab.c"
     break;
 
   case 31: /* Stmt: error SEMI  */
-#line 141 "syntax.y"
+#line 141 "src/syntax.y"
                  { (yyval.node_ptr) = (yyvsp[0].node_ptr); }
-#line 1472 "syntax.tab.c"
+#line 1472 "lib/syntax.tab.c"
     break;
 
   case 32: /* Stmt: CompSt  */
-#line 142 "syntax.y"
+#line 142 "src/syntax.y"
              { (yyval.node_ptr)=cnode("Stmt", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1478 "syntax.tab.c"
+#line 1478 "lib/syntax.tab.c"
     break;
 
   case 33: /* Stmt: RETURN Exp SEMI  */
-#line 143 "syntax.y"
+#line 143 "src/syntax.y"
                       { (yyval.node_ptr)=cnode("Stmt", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1484 "syntax.tab.c"
+#line 1484 "lib/syntax.tab.c"
     break;
 
   case 34: /* Stmt: IF LP Exp RP Stmt  */
-#line 144 "syntax.y"
+#line 144 "src/syntax.y"
                         { (yyval.node_ptr)=cnode("Stmt", (yyvsp[-4].node_ptr), 5, (yyvsp[-4].node_ptr), (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1490 "syntax.tab.c"
+#line 1490 "lib/syntax.tab.c"
     break;
 
   case 35: /* Stmt: IF LP Exp RP Stmt ELSE Stmt  */
-#line 145 "syntax.y"
+#line 145 "src/syntax.y"
                                   { (yyval.node_ptr)=cnode("Stmt", (yyvsp[-6].node_ptr), 7, (yyvsp[-6].node_ptr), (yyvsp[-5].node_ptr), (yyvsp[-4].node_ptr), (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1496 "syntax.tab.c"
+#line 1496 "lib/syntax.tab.c"
     break;
 
   case 36: /* Stmt: WHILE LP Exp RP Stmt  */
-#line 146 "syntax.y"
+#line 146 "src/syntax.y"
                            { (yyval.node_ptr)=cnode("Stmt", (yyvsp[-4].node_ptr), 5, (yyvsp[-4].node_ptr), (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1502 "syntax.tab.c"
+#line 1502 "lib/syntax.tab.c"
     break;
 
   case 37: /* DefList: Def DefList  */
-#line 148 "syntax.y"
+#line 148 "src/syntax.y"
                      { (yyval.node_ptr)=cnode("DefList", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1508 "syntax.tab.c"
+#line 1508 "lib/syntax.tab.c"
     break;
 
   case 38: /* DefList: %empty  */
-#line 149 "syntax.y"
+#line 149 "src/syntax.y"
                   { (yyval.node_ptr) = NULL; }
-#line 1514 "syntax.tab.c"
+#line 1514 "lib/syntax.tab.c"
     break;
 
   case 39: /* Def: Specifier DecList SEMI  */
-#line 151 "syntax.y"
+#line 151 "src/syntax.y"
                             { (yyval.node_ptr)=cnode("Def", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1520 "syntax.tab.c"
+#line 1520 "lib/syntax.tab.c"
     break;
 
   case 40: /* Def: error SEMI  */
-#line 152 "syntax.y"
+#line 152 "src/syntax.y"
                  { (yyval.node_ptr) = (yyvsp[0].node_ptr); }
-#line 1526 "syntax.tab.c"
+#line 1526 "lib/syntax.tab.c"
     break;
 
   case 41: /* DecList: Dec COMMA DecList  */
-#line 154 "syntax.y"
+#line 154 "src/syntax.y"
                            { (yyval.node_ptr)=cnode("DecList", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1532 "syntax.tab.c"
+#line 1532 "lib/syntax.tab.c"
     break;
 
   case 42: /* DecList: Dec  */
-#line 155 "syntax.y"
+#line 155 "src/syntax.y"
           { (yyval.node_ptr)=cnode("DecList", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1538 "syntax.tab.c"
+#line 1538 "lib/syntax.tab.c"
     break;
 
   case 43: /* Dec: VarDec  */
-#line 157 "syntax.y"
+#line 157 "src/syntax.y"
             { (yyval.node_ptr)=cnode("Dec", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1544 "syntax.tab.c"
+#line 1544 "lib/syntax.tab.c"
     break;
 
   case 44: /* Dec: VarDec ASSIGNOP Exp  */
-#line 158 "syntax.y"
+#line 158 "src/syntax.y"
                           { (yyval.node_ptr)=cnode("Dec", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1550 "syntax.tab.c"
+#line 1550 "lib/syntax.tab.c"
     break;
 
   case 45: /* Exp: Exp ASSIGNOP Exp  */
-#line 160 "syntax.y"
+#line 160 "src/syntax.y"
                       { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1556 "syntax.tab.c"
+#line 1556 "lib/syntax.tab.c"
     break;
 
   case 46: /* Exp: Exp AND Exp  */
-#line 161 "syntax.y"
+#line 161 "src/syntax.y"
                   { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1562 "syntax.tab.c"
+#line 1562 "lib/syntax.tab.c"
     break;
 
   case 47: /* Exp: Exp OR Exp  */
-#line 162 "syntax.y"
+#line 162 "src/syntax.y"
                  { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1568 "syntax.tab.c"
+#line 1568 "lib/syntax.tab.c"
     break;
 
   case 48: /* Exp: Exp RELOP Exp  */
-#line 163 "syntax.y"
+#line 163 "src/syntax.y"
                     { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1574 "syntax.tab.c"
+#line 1574 "lib/syntax.tab.c"
     break;
 
   case 49: /* Exp: Exp PLUS Exp  */
-#line 164 "syntax.y"
+#line 164 "src/syntax.y"
                    { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1580 "syntax.tab.c"
+#line 1580 "lib/syntax.tab.c"
     break;
 
   case 50: /* Exp: Exp MINUS Exp  */
-#line 165 "syntax.y"
+#line 165 "src/syntax.y"
                     { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1586 "syntax.tab.c"
+#line 1586 "lib/syntax.tab.c"
     break;
 
   case 51: /* Exp: Exp STAR Exp  */
-#line 166 "syntax.y"
+#line 166 "src/syntax.y"
                    { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1592 "syntax.tab.c"
+#line 1592 "lib/syntax.tab.c"
     break;
 
   case 52: /* Exp: Exp DIV Exp  */
-#line 167 "syntax.y"
+#line 167 "src/syntax.y"
                   { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1598 "syntax.tab.c"
+#line 1598 "lib/syntax.tab.c"
     break;
 
   case 53: /* Exp: LP Exp RP  */
-#line 168 "syntax.y"
+#line 168 "src/syntax.y"
                 { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1604 "syntax.tab.c"
+#line 1604 "lib/syntax.tab.c"
     break;
 
   case 54: /* Exp: MINUS Exp  */
-#line 169 "syntax.y"
+#line 169 "src/syntax.y"
                 { (yyval.node_ptr)=cnode("Exp", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1610 "syntax.tab.c"
+#line 1610 "lib/syntax.tab.c"
     break;
 
   case 55: /* Exp: NOT Exp  */
-#line 170 "syntax.y"
+#line 170 "src/syntax.y"
               { (yyval.node_ptr)=cnode("Exp", (yyvsp[-1].node_ptr), 2, (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1616 "syntax.tab.c"
+#line 1616 "lib/syntax.tab.c"
     break;
 
   case 56: /* Exp: ID LP Args RP  */
-#line 171 "syntax.y"
+#line 171 "src/syntax.y"
                     { (yyval.node_ptr)=cnode("Exp", (yyvsp[-3].node_ptr), 4, (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1622 "syntax.tab.c"
+#line 1622 "lib/syntax.tab.c"
     break;
 
   case 57: /* Exp: ID LP RP  */
-#line 172 "syntax.y"
+#line 172 "src/syntax.y"
                { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1628 "syntax.tab.c"
+#line 1628 "lib/syntax.tab.c"
     break;
 
   case 58: /* Exp: Exp LB Exp RB  */
-#line 173 "syntax.y"
+#line 173 "src/syntax.y"
                     { (yyval.node_ptr)=cnode("Exp", (yyvsp[-3].node_ptr), 4, (yyvsp[-3].node_ptr), (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1634 "syntax.tab.c"
+#line 1634 "lib/syntax.tab.c"
     break;
 
   case 59: /* Exp: Exp DOT ID  */
-#line 174 "syntax.y"
+#line 174 "src/syntax.y"
                  { (yyval.node_ptr)=cnode("Exp", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1640 "syntax.tab.c"
+#line 1640 "lib/syntax.tab.c"
     break;
 
   case 60: /* Exp: ID  */
-#line 175 "syntax.y"
+#line 175 "src/syntax.y"
          { (yyval.node_ptr)=cnode("Exp", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1646 "syntax.tab.c"
+#line 1646 "lib/syntax.tab.c"
     break;
 
   case 61: /* Exp: INT  */
-#line 176 "syntax.y"
+#line 176 "src/syntax.y"
           { (yyval.node_ptr)=cnode("Exp", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1652 "syntax.tab.c"
+#line 1652 "lib/syntax.tab.c"
     break;
 
   case 62: /* Exp: FLOAT  */
-#line 177 "syntax.y"
+#line 177 "src/syntax.y"
             { (yyval.node_ptr)=cnode("Exp", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1658 "syntax.tab.c"
+#line 1658 "lib/syntax.tab.c"
     break;
 
   case 63: /* Args: Exp COMMA Args  */
-#line 180 "syntax.y"
+#line 180 "src/syntax.y"
                      { (yyval.node_ptr)=cnode("Args", (yyvsp[-2].node_ptr), 3, (yyvsp[-2].node_ptr), (yyvsp[-1].node_ptr), (yyvsp[0].node_ptr)); }
-#line 1664 "syntax.tab.c"
+#line 1664 "lib/syntax.tab.c"
     break;
 
   case 64: /* Args: Exp  */
-#line 181 "syntax.y"
+#line 181 "src/syntax.y"
           { (yyval.node_ptr)=cnode("Args", (yyvsp[0].node_ptr), 1, (yyvsp[0].node_ptr)); }
-#line 1670 "syntax.tab.c"
+#line 1670 "lib/syntax.tab.c"
     break;
 
 
-#line 1674 "syntax.tab.c"
+#line 1674 "lib/syntax.tab.c"
 
       default: break;
     }
@@ -1864,7 +1864,7 @@ yyreturn:
   return yyresult;
 }
 
-#line 183 "syntax.y"
+#line 183 "src/syntax.y"
 
 
 int main(int argc, char **argv) {
@@ -1878,7 +1878,6 @@ int main(int argc, char **argv) {
         return 1;
     }
     yyrestart(f);
-    /* yydebug = 1; */
     yyparse();
     if (root && error_count == 0)
         print_tree(root, 0);
