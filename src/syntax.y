@@ -5,16 +5,18 @@
 #include <stdarg.h>
 #include "ast.h"
 #include "syntax.tab.h"
-#define cnode(n, l, c, ...) create_node(n, l->lineno, c, (AstNode *[]){__VA_ARGS__})
+#include "analysis.h"
+#include <initializer_list>
+#define cnode(n, l, c, ...) create_node(n, l->lineno, c, {__VA_ARGS__})
 /* #define YYDEBUG 1 */
 int yylex();
 void yyerror(const char *s);
 void yyrestart(FILE *f);
 
 
-AstNode* create_node(char *name, int lineno, int num_children, AstNode **children) {
+AstNode* create_node(const char *name, int lineno, int num_children, std::initializer_list<AstNode*> children) {
     AstNode *node = (AstNode *)malloc(sizeof(AstNode));
-    node->name = name;
+    node->name = strdup(name);
     node->lineno = lineno;
     node->first_child = NULL;
     node->next = NULL;
@@ -22,8 +24,8 @@ AstNode* create_node(char *name, int lineno, int num_children, AstNode **childre
     node->is_terminal = 0;
 
     AstNode *prev_child = NULL;
-    for (int i = 0; i < num_children; ++i) {
-        AstNode *child = children[i];
+    for (auto it = children.begin(); it != children.end(); ++it) {
+        AstNode *child = *it;
         if (!child) {
             continue;
         }
@@ -39,7 +41,7 @@ AstNode* create_node(char *name, int lineno, int num_children, AstNode **childre
 
 AstNode* create_terminal_node(char * name, int lineno, char* value) {
     AstNode *node = (AstNode *)malloc(sizeof(AstNode));
-    node->name = name;
+    node->name = strdup(name);
     node->lineno = lineno;
     node->first_child = NULL;
     node->next = NULL;
@@ -195,6 +197,6 @@ int main(int argc, char **argv) {
     yyrestart(f);
     yyparse();
     if (root && error_count == 0)
-        print_tree(root, 0);
+        handleProgram(root);
     return 0;
 }

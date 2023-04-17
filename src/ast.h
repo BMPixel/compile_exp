@@ -11,6 +11,6 @@ struct AstNode
 
 AstNode *create_node(const char *name, int lineno, int num_children, AstNode **children);
 
-AstNode *create_terminal_node(const char *name, int lineno, const char *value);
+AstNode *create_terminal_node(char *name, int lineno, char *value);
 
 void print_tree(AstNode *node, int level);

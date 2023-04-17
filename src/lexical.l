@@ -4,9 +4,9 @@
 - get their values
 */
 %{
-#include <stdio.h>
 #include "ast.h"
 #include "syntax.tab.h"
+#include <iostream>
 #define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
 extern AstNode* root;
@@ -71,13 +71,13 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
 
 "/*"       {
             char c, prev = 0;
-            while((c = input()) != 0) {
+            while((c = std::cin.get()) != EOF) {
                 if(c == '/' && prev == '*') break;
                 prev = c;
             }
          }
 "//"       {
-            while(input() != '\n');
+            while(std::cin.get() != '\n');
          }
 
 [a-zA-Z_][a-zA-Z0-9_]* { TNODE("ID", yytext); return ID; }
