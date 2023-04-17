@@ -114,7 +114,7 @@ typedef struct Node {
     char *value_string;
     int is_terminal;
     struct Node *first_child;
-    struct Node *next_sibling;
+    struct Node *next;
 } Node;
 我现在已经可以根据语法生成语法树了，但是我现在需要根据它完成语义分析和类型检查，并打印分析结果。我现在需要你来完成这个程序。这个工作可能比较复杂，我希望你首先向我展示你的思路：包括：
 - 如何构造符号表

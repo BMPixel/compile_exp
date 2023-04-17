@@ -6,7 +6,7 @@ typedef struct AstNode
     char *value_string;
     int is_terminal;
     struct AstNode *first_child;
-    struct AstNode *next_sibling;
+    struct AstNode *next;
 } AstNode;
 
 AstNode *create_node(char *name, int lineno, int num_children, AstNode **children);

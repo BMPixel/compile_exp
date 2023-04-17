@@ -17,7 +17,7 @@ AstNode* create_node(char *name, int lineno, int num_children, AstNode **childre
     node->name = name;
     node->lineno = lineno;
     node->first_child = NULL;
-    node->next_sibling = NULL;
+    node->next = NULL;
     node->value_string = NULL;
     node->is_terminal = 0;
 
@@ -28,7 +28,7 @@ AstNode* create_node(char *name, int lineno, int num_children, AstNode **childre
             continue;
         }
         if (prev_child) {
-            prev_child->next_sibling = child;
+            prev_child->next = child;
         } else {
             node->first_child = child;
         }
@@ -42,7 +42,7 @@ AstNode* create_terminal_node(char * name, int lineno, char* value) {
     node->name = name;
     node->lineno = lineno;
     node->first_child = NULL;
-    node->next_sibling = NULL;
+    node->next = NULL;
     node->is_terminal = 1;
     if (value) {
         node->value_string = (char *)malloc(sizeof(char) * (strlen(value) + 1));
@@ -69,7 +69,7 @@ void print_tree(AstNode *node, int level) {
     else
         printf("%s (%d)\n", node->name, node->lineno);
     print_tree(node->first_child, level + 1);
-    print_tree(node->next_sibling, level);
+    print_tree(node->next, level);
 }
 
 %}
