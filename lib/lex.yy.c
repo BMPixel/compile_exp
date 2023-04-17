@@ -535,7 +535,7 @@ char *yytext;
 #include "syntax.tab.h"
 #define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
-extern Node* root;
+extern AstNode* root;
 extern int error_count;
 #line 541 "lib/lex.yy.c"
 #line 542 "lib/lex.yy.c"

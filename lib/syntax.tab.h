@@ -94,7 +94,7 @@ union YYSTYPE
     int type_int;
     float type_float;
     double type_double;
-    Node* node_ptr;
+    AstNode* node_ptr;
 
 #line 100 "./lib/syntax.tab.h"
 

@@ -26,7 +26,7 @@ $(LIBDIR)/ast.h: $(SRCDIR)/ast.h
 	cp $< $@
 
 test: $(BINDIR)/grammar
-	$(BINDIR)/grammar $(TESTDIR)/testcase_1
+	$(BINDIR)/grammar $(TESTDIR)/testcase_4
 
 clean:
 	rm -f $(LIBDIR)/syntax.tab.c $(LIBDIR)/syntax.tab.h $(LIBDIR)/lex.yy.c $(BINDIR)/grammar

@@ -75,15 +75,15 @@
 #include <stdarg.h>
 #include "ast.h"
 #include "syntax.tab.h"
-#define cnode(n, l, c, ...) create_node(n, l->lineno, c, (Node *[]){__VA_ARGS__})
+#define cnode(n, l, c, ...) create_node(n, l->lineno, c, (AstNode *[]){__VA_ARGS__})
 /* #define YYDEBUG 1 */
 int yylex();
 void yyerror(const char *s);
 void yyrestart(FILE *f);
 
 
-Node* create_node(char *name, int lineno, int num_children, Node **children) {
-    Node *node = (Node *)malloc(sizeof(Node));
+AstNode* create_node(char *name, int lineno, int num_children, AstNode **children) {
+    AstNode *node = (AstNode *)malloc(sizeof(AstNode));
     node->name = name;
     node->lineno = lineno;
     node->first_child = NULL;
@@ -91,9 +91,9 @@ Node* create_node(char *name, int lineno, int num_children, Node **children) {
     node->value_string = NULL;
     node->is_terminal = 0;
 
-    Node *prev_child = NULL;
+    AstNode *prev_child = NULL;
     for (int i = 0; i < num_children; ++i) {
-        Node *child = children[i];
+        AstNode *child = children[i];
         if (!child) {
             continue;
         }
@@ -107,8 +107,8 @@ Node* create_node(char *name, int lineno, int num_children, Node **children) {
     return node;
 }
 
-Node* create_terminal_node(char * name, int lineno, char* value) {
-    Node *node = (Node *)malloc(sizeof(Node));
+AstNode* create_terminal_node(char * name, int lineno, char* value) {
+    AstNode *node = (AstNode *)malloc(sizeof(AstNode));
     node->name = name;
     node->lineno = lineno;
     node->first_child = NULL;
@@ -123,10 +123,10 @@ Node* create_terminal_node(char * name, int lineno, char* value) {
     return node;
 }
 
-Node* root;
+AstNode* root;
 int error_count = 0;
 
-void print_tree(Node *node, int level) {
+void print_tree(AstNode *node, int level) {
     if (!node) return;
     for (int i = 0; i < level; ++i) {
         printf("  ");

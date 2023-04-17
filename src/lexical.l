@@ -9,7 +9,7 @@
 #include "syntax.tab.h"
 #define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
-extern Node* root;
+extern AstNode* root;
 extern int error_count;
 %}
 
