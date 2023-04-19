@@ -4,21 +4,13 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run on testfile.txt",
+            "label": "clean and build",
             "type": "shell",
-            "command": "bison -d -t syntax.y && flex lexical.l && gcc -o grammar syntax.tab.c lex.yy.c  && ./grammar testfile.c",
-            "problemMatcher": []
-        },
-        {
-            "label": "Interactive",
-            "type": "shell",
-            "command": "bison -d -t syntax.y && flex lexical.l && gcc -o grammar syntax.tab.c lex.yy.c  && ./grammar",
-            "problemMatcher": []
-        },
-        {
-            "label": "Counter Examples",
-            "type": "shell",
-            "command": "bison -d -t -Wcounterexamples syntax.y",
+            "command": "make clean && make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "problemMatcher": []
         }
     ]
