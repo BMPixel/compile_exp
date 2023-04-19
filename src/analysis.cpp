@@ -498,6 +498,9 @@ void handleDef(AstNode *node)
     SymbolType *type = NULL;
     handleSpecifier(node->first_child, type);
     SymbolType *type_copy = new SymbolType{type->name, type->kind};
+    type_copy->basic = type->basic;
+    type_copy->structure = type->structure;
+    type_copy->array = type->array;
     handleDecList(node->first_child->next, type_copy);
 }
 
@@ -592,6 +595,7 @@ SymbolType *handleExp(AstNode *node)
             bool is_defined = assert(definedVars != NULL, 1, node->lineno, "Undefined variable " + string(node->first_child->value_string));
             if (is_defined)
             {
+                definedVars->type->isLeftValue = true;
                 return definedVars->type;
             }
             return 0;
@@ -605,6 +609,10 @@ SymbolType *handleExp(AstNode *node)
             {
                 assert(false, 2, node->lineno, "Undefined function " + string(node->first_child->value_string));
                 return NULL;
+            }
+            else
+            {
+                assert(var->kind == SymbolVar::FUNCTION, 11, node->lineno, var->name + " is not a function");
             }
             handleArgs(node->first_child->next->next, var);
             return var->type;
@@ -674,8 +682,18 @@ SymbolType *handleExp(AstNode *node)
     debugAstNode("Exp->OP", node);
     auto typeleft = handleExp(node->first_child);
     auto typeright = handleExp(node->first_child->next->next);
-    assert(testTypeEqual(typeleft, typeright), 7, node->lineno, "Type mismatched for operands");
-    return new SymbolType{"int", SymbolType::BASIC};
+    if (!typeleft || !typeright)
+        return NULL;
+    if (typeleft->kind == SymbolType::BASIC && typeright->kind == SymbolType::BASIC)
+    {
+        assert(typeleft->basic == typeright->basic, 7, node->lineno, "Type mismatched for operands");
+        return typeleft;
+    }
+    else
+    {
+        assert(false, 7, node->lineno, "Type mismatched for operands");
+        return NULL;
+    }
 }
 
 void handleArgs(AstNode *node, SymbolVar *&var)

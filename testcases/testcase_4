@@ -1,10 +1,12 @@
 struct testcase_4
 {
-	int x;
+	int x, y;
 };
 
 int main()
 {
-	struct testcase_4 a;
-	return a;
+	int a, b[10];
+	float c = 10;
+	a = a + c;
+	return c;
 }

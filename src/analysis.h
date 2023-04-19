@@ -24,6 +24,8 @@ struct SymbolType
 
     vector<SymbolType *> structure;
 
+    bool isLeftValue = 0;
+
     // 定义构造函数
     SymbolType(const string &name, Kind kind)
         : name(name), kind(kind)
