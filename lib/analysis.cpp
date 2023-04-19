@@ -80,7 +80,7 @@ void handleExtDecList(AstNode *node, SymbolType *type)
     var->kind = SymbolVar::VARIABLE;
     var->type = type;
     handleVarDec(node->first_child, type);
-    var->name = node->first_child->first_child->value;
+    var->name = node->first_child->first_child->name;
     var_table.push_back(var);
     if (node->first_child->next != NULL)
         handleExtDecList(node->first_child->next->next, type);
@@ -92,12 +92,12 @@ void handleSpecifier(AstNode *node, SymbolType *&type)
         return;
     if (node->first_child->name == "TYPE")
     {
-        type = new SymbolType;
+        type = new SymbolType{node->first_child->name, SymbolType::BASIC};
         type->kind = SymbolType::BASIC;
-        if (node->first_child->value == "int")
-            type->u.basic = 0;
+        if (node->first_child->name == "int")
+            type->basic = 0;
         else
-            type->u.basic = 1;
+            type->basic = 1;
         return;
     }
     if (node->first_child->name == "StructSpecifier")
@@ -124,9 +124,7 @@ void handleStructSpecifier(AstNode *node, SymbolType *&type)
     {
         string name;
         handleOptTag(node->first_child->next, name);
-        type = new SymbolType;
-        type->name = name;
-        type->kind = SymbolType::STRUCTURE;
+        type = new SymbolType{name, SymbolType::STRUCTURE};
         type_table.push_back(type);
         handleStructDefList(node->first_child->next->next->next, type);
         return;
@@ -163,12 +161,14 @@ void handleStructDec(AstNode *node, SymbolType *field_type, SymbolType *type)
 {
     if (node == NULL)
         return;
-    string name = node->first_child->first_child->value;
-    SymbolType *var_type = new SymbolType;
+    string name = node->first_child->first_child->name;
+    SymbolType *var_type = new SymbolType{field_type->name, field_type->kind};
     var_type->kind = field_type->kind;
-    var_type.u = field_type->u;
+    var_type->basic = field_type->basic;
+    var_type->array = field_type->array;
+    var_type->structure = field_type->structure;
     var_type->name = name;
-    type->u.structure.push_back(var_type);
+    type->structure.push_back(var_type);
 }
 
 void handleOptTag(AstNode *node, string &name)
@@ -176,14 +176,14 @@ void handleOptTag(AstNode *node, string &name)
     if (node == NULL)
         return;
     if (node->first_child != NULL)
-        name = node->first_child->value;
+        name = node->first_child->name;
 }
 
 void handleTag(AstNode *node, string &name)
 {
     if (node == NULL)
         return;
-    name = node->first_child->next->value;
+    name = node->first_child->next->name;
 }
 
 void handleVarDec(AstNode *node, SymbolType *&type)
@@ -192,14 +192,14 @@ void handleVarDec(AstNode *node, SymbolType *&type)
         return;
     if (node->first_child->name == "ID")
     {
-        type->name = node->first_child->value;
+        type->name = node->first_child->name;
         return;
     }
     if (node->first_child->name == "VarDec")
     {
         handleVarDec(node->first_child, type);
         type->kind = SymbolType::ARRAY;
-        type->u.array.size = atoi(node->first_child->next->next->value.c_str());
+        type->array.size = atoi(node->first_child->next->next->name);
         return;
     }
 }
@@ -208,7 +208,7 @@ void handleFunDec(AstNode *node, SymbolVar *var)
 {
     if (node == NULL)
         return;
-    var->name = node->first_child->value;
+    var->name = node->first_child->name;
     handleVarList(node->first_child->next->next, var);
 }
 
@@ -270,10 +270,10 @@ void handleDec(AstNode *node, SymbolType *&type)
         return;
     SymbolVar *var = new SymbolVar;
     var->type = type;
-    var->name = node->first_child->first_child->value;
+    var->name = node->first_child->first_child->name;
     var_table.push_back(var);
     if (node->first_child->next != NULL)
-        handleExp(node->first_child->next->next);
+        handleExp(node->first_child->next->next, type);
 }
 
 void handleStmtList(AstNode *node)
@@ -289,12 +289,12 @@ void handleStmt(AstNode *node)
     cout << "handleStmt" << endl;
 }
 
-void handleExp(AstNode *node)
+void handleExp(AstNode *node, SymbolType *&type)
 {
     cout << "handleExp" << endl;
 }
 
-void handleArgs(AstNode *node)
+void handleArgs(AstNode *node, vector<SymbolType *> param)
 {
     cout << "handleArgs" << endl;
 }
