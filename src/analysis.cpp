@@ -642,6 +642,7 @@ SymbolType *handleExp(AstNode *node)
         auto type = handleExp(node->first_child);
         if (assert(type->kind == SymbolType::ARRAY, 10, node->lineno, "Not an array"))
         {
+            type->isLeftValue = true;
             return type->array.elem;
         }
         return NULL;
@@ -656,6 +657,7 @@ SymbolType *handleExp(AstNode *node)
         assert(typeleft->kind == typeright->kind, 5, node->lineno, "Type mismatched for assignment");
         if (typeleft->kind == SymbolType::BASIC)
             assert(typeleft->basic == typeright->basic, 5, node->lineno, "Type mismatched for assignment");
+        assert(typeleft->isLeftValue, 6, node->lineno, "The left-hand side of an assignment must be a variable");
         return typeleft;
     }
     if (strcmp(node->first_child->name, "LP") == 0)
