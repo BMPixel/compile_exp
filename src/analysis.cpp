@@ -509,7 +509,8 @@ void handleDecList(AstNode *node, SymbolType *&type)
     debugAstNode("DecList", node);
     if (node == NULL || node->is_terminal)
         return;
-    handleDec(node->first_child, type);
+    SymbolType *type_copy = new SymbolType{type->name, type->kind};
+    handleDec(node->first_child, type_copy);
     if (node->first_child->next != NULL)
         handleDecList(node->first_child->next->next, type);
 }
@@ -617,15 +618,6 @@ SymbolType *handleExp(AstNode *node)
             handleArgs(node->first_child->next->next, var);
             return var->type;
         }
-        if (strcmp(node->first_child->next->name, "LB") == 0)
-        {
-            debugAstNode("Exp->ARRAY", node);
-            // Exp LB Exp RB
-            auto type = handleExp(node->first_child->next->next);
-            assert(type->kind == SymbolType::BASIC && type->basic == 0, 12, node->lineno, "Array index should be an integer");
-            // TODO: this is hard to implement
-            return NULL;
-        }
     }
     if (strcmp(node->first_child->name, "INT") == 0)
     {
@@ -641,11 +633,24 @@ SymbolType *handleExp(AstNode *node)
         type->basic = 1;
         return type;
     }
+    if (strcmp(node->first_child->next->name, "LB") == 0)
+    {
+        debugAstNode("Exp->ARRAY", node);
+        // Exp LB Exp RB
+        auto index_type = handleExp(node->first_child->next->next);
+        assert(index_type->kind == SymbolType::BASIC && index_type->basic == 0, 12, node->lineno, "Array index should be an integer");
+        auto type = handleExp(node->first_child);
+        if (assert(type->kind == SymbolType::ARRAY, 10, node->lineno, "Not an array"))
+        {
+            return type->array.elem;
+        }
+        return NULL;
+    }
     if (strcmp(node->first_child->next->name, "ASSIGNOP") == 0)
     {
         debugAstNode("Exp->ASSIGN", node);
-        auto typeleft = handleExp(node->first_child);
-        auto typeright = handleExp(node->first_child->next->next);
+        SymbolType *typeleft = handleExp(node->first_child);
+        SymbolType *typeright = handleExp(node->first_child->next->next);
         if (!typeleft || !typeright)
             return NULL;
         assert(typeleft->kind == typeright->kind, 5, node->lineno, "Type mismatched for assignment");

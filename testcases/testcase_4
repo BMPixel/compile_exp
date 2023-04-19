@@ -5,8 +5,6 @@ struct testcase_4
 
 int main()
 {
-	int a, b[10];
-	float c = 10;
-	a = a + c;
-	return c;
+	int a, b[20][10];
+	a = a[1.0];
 }
