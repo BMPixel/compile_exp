@@ -92,7 +92,6 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
 void yyerror(const char *s) {
     error_count++;
     root = NULL;
-    parse_success = 0;
     if (strcmp(s, "syntax error") == 0) { 
         fprintf(stderr, "Error type B at Line %d: syntax error\n", yylineno);
     } else if (strcmp (s, "lexical error") == 0) {
