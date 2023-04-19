@@ -89,7 +89,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
+<<<<<<< HEAD:src/syntax.tab.h
 #line 85 "src/syntax.y"
+=======
+#line 77 "syntax.y"
+>>>>>>> f75a466875dc5820084e37b850dab22a353213fa:syntax.tab.h
 
     int type_int;
     float type_float;
