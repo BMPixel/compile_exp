@@ -1,6 +1,6 @@
-#line 2 "lib/lex.yy.c"
+#line 2 "src/lex.yy.c"
 
-#line 4 "lib/lex.yy.c"
+#line 4 "src/lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -537,8 +537,8 @@ char *yytext;
 void yyerror(const char *s);
 extern AstNode* root;
 extern int error_count;
-#line 541 "lib/lex.yy.c"
-#line 542 "lib/lex.yy.c"
+#line 541 "src/lex.yy.c"
+#line 542 "src/lex.yy.c"
 
 #define INITIAL 0
 
@@ -758,7 +758,7 @@ YY_DECL
 #line 18 "src/lexical.l"
 
 
-#line 762 "lib/lex.yy.c"
+#line 762 "src/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -994,7 +994,7 @@ YY_RULE_SETUP
 #line 89 "src/lexical.l"
 ECHO;
 	YY_BREAK
-#line 998 "lib/lex.yy.c"
+#line 998 "src/lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

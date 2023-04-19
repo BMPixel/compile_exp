@@ -10,6 +10,7 @@
         "type_traits": "cpp",
         "utility": "cpp",
         "iostream": "cpp",
-        "testcase_4": "cpp"
+        "testcase_4": "cpp",
+        "random": "cpp"
     }
 }

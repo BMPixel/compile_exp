@@ -83,7 +83,7 @@ void handleDefList(AstNode *node);
 void handleDef(AstNode *node);
 void handleDecList(AstNode *node, SymbolType *&type);
 void handleDec(AstNode *node, SymbolType *&type);
-void handleExp(AstNode *node, SymbolType *&type);
-void handleArgs(AstNode *node, vector<SymbolType *> param);
+SymbolType *handleExp(AstNode *node);
+void handleArgs(AstNode *node, SymbolVar *&var);
 
 #endif

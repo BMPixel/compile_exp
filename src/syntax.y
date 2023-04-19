@@ -27,7 +27,13 @@ AstNode* create_node(const char *name, int lineno, int num_children, std::initia
     for (auto it = children.begin(); it != children.end(); ++it) {
         AstNode *child = *it;
         if (!child) {
-            continue;
+            child = (AstNode *)malloc(sizeof(AstNode));
+            child->name = strdup("NULL");
+            child->lineno = lineno;
+            child->first_child = NULL;
+            child->next = NULL;
+            child->value_string = NULL;
+            child->is_terminal = 1;
         }
         if (prev_child) {
             prev_child->next = child;
@@ -97,7 +103,7 @@ void print_tree(AstNode *node, int level) {
 
 
 %%
-Program: ExtDefList { printf("%d", $1 == NULL); $$ =cnode("Program", $1, 1, $1); root=$$; }
+Program: ExtDefList {$$ =cnode("Program", $1, 1, $1); root=$$; }
     ;
 ExtDefList: ExtDef ExtDefList { $$=cnode("ExtDefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
@@ -122,7 +128,7 @@ OptTag: ID { $$=cnode("OptTag", $1, 1, $1); }
 Tag: ID { $$=cnode("Tag", $1, 1, $1); }
     ;
 VarDec: ID { $$=cnode("VarDec", $1, 1, $1); }
-    | VarDec LB INT RB { $$=cnode("VarDec", $1, 3, $1, $2, $4); }
+    | VarDec LB INT RB { $$=cnode("VarDec", $1, 4, $1, $2, $3, $4); }
     ;
 FunDec: ID LP VarList RP { $$=cnode("FunDec", $1, 4, $1, $2, $3, $4); }
     | ID LP RP { $$=cnode("FunDec", $1, 3, $1, $2, $3); }

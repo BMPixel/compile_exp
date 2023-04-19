@@ -1,9 +1,10 @@
+struct testcase_4
+{
+	int x;
+};
+
 int main()
 {
-	int i, a;
-	i = 0;
-	while (i < 10)
-	{
-		a = a + i;
-	}
+	struct testcase_4 a;
+	return a;
 }
