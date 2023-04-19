@@ -9,13 +9,8 @@
 #include <iostream>
 #define TNODE(n, v) yylval.node_ptr = create_terminal_node(n, yylineno, v)
 void yyerror(const char *s);
-<<<<<<< HEAD:src/lexical.l
 extern AstNode* root;
 extern int error_count;
-=======
-extern Node* root;
-extern int parse_success;
->>>>>>> f75a466875dc5820084e37b850dab22a353213fa:lexical.l
 %}
 
 %option yylineno
@@ -86,10 +81,7 @@ int|float { TNODE("TYPE", yytext); return TYPE; }
             while(std::cin.get() != '\n');
          }
 
-<<<<<<< HEAD:src/lexical.l
 [a-zA-Z_][a-zA-Z0-9_]* { TNODE("ID", yytext); return ID; }
-=======
->>>>>>> f75a466875dc5820084e37b850dab22a353213fa:lexical.l
 
 [ \t\n]       /* ignore whitespace */
 

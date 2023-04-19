@@ -61,13 +61,8 @@ AstNode* create_terminal_node(char * name, int lineno, char* value) {
     return node;
 }
 
-<<<<<<< HEAD:src/syntax.y
 AstNode* root;
 int error_count = 0;
-=======
-Node* root;
-int parse_success = 1;
->>>>>>> f75a466875dc5820084e37b850dab22a353213fa:syntax.y
 
 void print_tree(AstNode *node, int level) {
     if (!node) return;
@@ -108,11 +103,7 @@ void print_tree(AstNode *node, int level) {
 
 
 %%
-<<<<<<< HEAD:src/syntax.y
 Program: ExtDefList {$$ =cnode("Program", $1, 1, $1); root=$$; }
-=======
-Program: ExtDefList { $$ =cnode("Program", $1, 1, $1); root=$$; }
->>>>>>> f75a466875dc5820084e37b850dab22a353213fa:syntax.y
     ;
 ExtDefList: ExtDef ExtDefList { $$=cnode("ExtDefList", $1, 2, $1, $2); }
     | /* empty */ { $$ = NULL; }
@@ -212,15 +203,8 @@ int main(int argc, char **argv) {
         return 1;
     }
     yyrestart(f);
-<<<<<<< HEAD:src/syntax.y
     yyparse();
     if (root && error_count == 0)
         handleProgram(root);
-=======
-    yydebug = 1;
-    yyparse();
-    if (root && parse_success)
-        print_tree(root, 0);
->>>>>>> f75a466875dc5820084e37b850dab22a353213fa:syntax.y
     return 0;
 }
