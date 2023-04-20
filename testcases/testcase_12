@@ -1,5 +1,0 @@
-int main()
-{
-	int c = 0X00hA5;
-}
-

@@ -13,6 +13,7 @@ void debugCollectNode(AstNode *node, string &code);
 
 void debugAstNode(const char *message, AstNode *node)
 {
+#ifdef DEBUG
     if (node == NULL || node->is_terminal)
     {
         cout << message << ": NULL" << endl
@@ -23,10 +24,12 @@ void debugAstNode(const char *message, AstNode *node)
     debugCollectNode(node, code);
     cout << message << ": " << node->name << " @" << node->lineno << endl
          << "                                                  [ " << code << " ]" << endl;
+#endif
 }
 
 void debugType(const char *message, SymbolType *type)
 {
+#ifdef DEBUG
     if (type == NULL)
     {
         cout << message << ": NULL" << endl;
@@ -46,10 +49,12 @@ void debugType(const char *message, SymbolType *type)
         break;
     }
     cout << "-------" << message << ": " << type->name << " (" << kind_name << ")" << endl;
+#endif
 }
 
 void debugVar(const char *message, SymbolVar *var)
 {
+#ifdef DEBUG
     if (var == NULL)
     {
         cout << message << ": NULL" << endl;
@@ -66,10 +71,12 @@ void debugVar(const char *message, SymbolVar *var)
         break;
     }
     cout << "-----" << message << ": " << var->name << " (" << kind_name << ")" << endl;
+#endif
 }
 
 void debugCollectNode(AstNode *node, string &code)
 {
+#ifdef DEBUG
     if (node == NULL)
         return;
     if (strcmp(node->name, "ID") == 0)
@@ -128,6 +135,7 @@ void debugCollectNode(AstNode *node, string &code)
         code += "while";
     for (auto it = node->first_child; it != NULL; it = it->next)
         debugCollectNode(it, code);
+#endif
 }
 
 vector<SymbolType *> type_table;
