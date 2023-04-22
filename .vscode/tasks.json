@@ -4,9 +4,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "clean and build",
+            "label": "clean and build debug",
             "type": "shell",
-            "command": "make clean && make",
+            "command": "make clean && make debug-build-only",
             "group": {
                 "kind": "build",
                 "isDefault": true

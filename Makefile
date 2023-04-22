@@ -45,5 +45,7 @@ testcase6: $(BINDIR)/grammar
 debug: $(BINDIR)/grammar-debug
 	$(BINDIR)/grammar-debug $(TESTDIR)/testdebug.c
 
+debug-build-only: $(BINDIR)/grammar-debug
+
 clean: 
 	rm -f $(SRCDIR)/syntax.tab.c $(SRCDIR)/syntax.tab.h $(SRCDIR)/lex.yy.c $(BINDIR)/grammar	

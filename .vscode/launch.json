@@ -5,16 +5,16 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/grammar",
+            "program": "${workspaceFolder}/bin/grammar-debug",
             "args": [
-                "/workspaces/compile_exp/testcases/testcase_4"
+                "/workspaces/compile_exp/testcases/testdebug.c"
             ],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "preLaunchTask": "clean and build", // 添加这一行
+            "preLaunchTask": "clean and build debug", // 添加这一行
             "setupCommands": [
                 {
                     "description": "为 gdb 启用整齐打印",

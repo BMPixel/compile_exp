@@ -238,6 +238,17 @@ bool tryPushVarToTable(SymbolVar *var, int lineno)
     return true;
 }
 
+SymbolType *copyType(SymbolType *type)
+{
+    if (type == NULL)
+        return NULL;
+    SymbolType *newType = new SymbolType{type->name, type->kind};
+    newType->basic = type->basic;
+    newType->structure = type->structure;
+    newType->array = type->array;
+    return newType;
+}
+
 void handleProgram(AstNode *node)
 {
     debugAstNode("Program", node);
@@ -478,6 +489,11 @@ void handleParamDec(AstNode *node, SymbolVar *var)
     handleSpecifier(node->first_child, type);
     debugType("Add a param to function dec", type);
     var->params.push_back(type);
+    SymbolVar *param = new SymbolVar;
+    param->kind = SymbolVar::VARIABLE;
+    param->type = type;
+    param->name = node->first_child->next->first_child->value_string;
+    tryPushVarToTable(param, node->lineno);
 }
 
 void handleCompSt(AstNode *node)
@@ -505,10 +521,7 @@ void handleDef(AstNode *node)
         return;
     SymbolType *type = NULL;
     handleSpecifier(node->first_child, type);
-    SymbolType *type_copy = new SymbolType{type->name, type->kind};
-    type_copy->basic = type->basic;
-    type_copy->structure = type->structure;
-    type_copy->array = type->array;
+    SymbolType *type_copy = copyType(type);
     handleDecList(node->first_child->next, type_copy);
 }
 
@@ -517,7 +530,7 @@ void handleDecList(AstNode *node, SymbolType *&type)
     debugAstNode("DecList", node);
     if (node == NULL || node->is_terminal)
         return;
-    SymbolType *type_copy = new SymbolType{type->name, type->kind};
+    SymbolType *type_copy = copyType(type);
     handleDec(node->first_child, type_copy);
     if (node->first_child->next != NULL)
         handleDecList(node->first_child->next->next, type);
@@ -623,7 +636,7 @@ SymbolType *handleExp(AstNode *node)
             {
                 assert(var->kind == SymbolVar::FUNCTION, 11, node->lineno, var->name + " is not a function");
             }
-            handleArgs(node->first_child->next->next, var);
+            handleArgs(node->first_child->next->next, var, 0);
             return var->type;
         }
     }
@@ -711,7 +724,25 @@ SymbolType *handleExp(AstNode *node)
     }
 }
 
-void handleArgs(AstNode *node, SymbolVar *&var)
+void handleArgs(AstNode *node, SymbolVar *&var, int index)
 {
+    if (node == NULL || node->is_terminal)
+        return;
     debugAstNode("Args", node);
+    if (var->params.size() == index)
+    {
+        assert(false, 9, node->lineno, "Function " + var->name + " is not applicable for arguments");
+        return;
+    }
+    SymbolType *type = handleExp(node->first_child);
+    if (!testTypeEqual(type, var->params[index]))
+    {
+        assert(false, 9, node->lineno, "Function " + var->name + " is not applicable for arguments");
+        return;
+    }
+    index += 1;
+    if (node->first_child->next != NULL)
+        handleArgs(node->first_child->next->next, var, index);
+    else
+        assert(var->params.size() == index, 9, node->lineno, "Function " + var->name + " is not applicable for arguments");
 }
