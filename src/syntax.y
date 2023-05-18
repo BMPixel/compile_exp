@@ -204,7 +204,7 @@ int main(int argc, char **argv) {
     }
     yyrestart(f);
     yyparse();
-    if (root && error_count == 0)
-        handleProgram(root);
+    //if (root && error_count == 0)
+    //    handleProgram(root);
     return 0;
 }
